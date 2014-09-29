@@ -53,7 +53,7 @@ public class Main {
 	
 	
     public static void main(String[] args) {
-    	String collectionName = "shahab";
+    	String collectionName = "SampleProfiles";
     	int num = 208;
     	
     	if (args.length == 2) {
@@ -67,7 +67,7 @@ public class Main {
 			String filename = "data/pids_one_milion_nilson.txt";
 			
 			mongoClient = new MongoClient( "ec2-54-228-63-91.eu-west-1.compute.amazonaws.com" , 27017 );
-			DB db = mongoClient.getDB( collectionName );
+			DB db = mongoClient.getDB( "shahab" );
 			
 //			//initialize cassandra client
 //			CassClient client = new CassClient();
@@ -78,7 +78,7 @@ public class Main {
 			ProfileDAO daoProfile = new ProfileDAO("ec2-54-247-46-227.eu-west-1.compute.amazonaws.com", "mydb");
 			
 			
-			DBCollection coll = db.getCollection("SampleProfiles");
+			DBCollection coll = db.getCollection(collectionName);
 			DBCursor cursor = coll.find();
 			List<String> keysList = new ArrayList<String> ();
 			
