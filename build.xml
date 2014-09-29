@@ -11,7 +11,6 @@
     <property name="source" value="1.7"/>
     <path id="CassandraBenchmark.classpath">
         <pathelement location="bin"/>
-        <pathelement location="BenchMark.jar"/>
         <pathelement location="lib/cassandra-java-driver-2.1.1/cassandra-driver-core-2.1.1.jar"/>
         <pathelement location="lib/cassandra-java-driver-2.1.1/cassandra-driver-dse-2.1.1.jar"/>
         <pathelement location="lib/cassandra-java-driver-2.1.1/cassandra-driver-mapping-2.1.1.jar"/>
@@ -60,5 +59,10 @@
     <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
+    </target>
+    <target name="Main (1)">
+        <java classname="com.inno.Main" failonerror="true" fork="yes">
+            <classpath refid="CassandraBenchmark.classpath"/>
+        </java>
     </target>
 </project>
