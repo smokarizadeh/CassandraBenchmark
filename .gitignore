@@ -4,3 +4,7 @@
 .project
 
 *.jar
+
+*.class
+
+*.class

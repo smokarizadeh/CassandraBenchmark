@@ -53,12 +53,21 @@ public class Main {
 	
 	
     public static void main(String[] args) {
+    	String collectionName = "shahab";
+    	int num = 208;
+    	
+    	if (args.length == 2) {
+    		collectionName = args[0];
+    		num = Integer.parseInt(args[1]);
+    		System.out.println ("MongoDB " + collectionName + " size: " + num);
+    	}
+    	
         MongoClient mongoClient;
 		try {
 			String filename = "data/pids_one_milion_nilson.txt";
 			
 			mongoClient = new MongoClient( "ec2-54-228-63-91.eu-west-1.compute.amazonaws.com" , 27017 );
-			DB db = mongoClient.getDB( "shahab" );
+			DB db = mongoClient.getDB( collectionName );
 			
 //			//initialize cassandra client
 //			CassClient client = new CassClient();
@@ -87,10 +96,12 @@ public class Main {
 			      daoProfile.insertProfile(Company, Bucket, id, data.toString());
 			      
 			      keysList.add(id);
-//			      counter ++;
-//			      if (counter % 100 == 0)
-//			    	  System.out.println("Read " + counter);
-//			      
+			      counter ++;
+			      if (counter % 100 == 0)
+			    	  System.out.println("Read " + counter);
+			      if (counter == num)
+			    	  break;
+			      
 			   }
 			   long t_end = System.currentTimeMillis();
 			   System.out.print("Reading is finished, it took  "+ (t_end - t_start)+ "  ms " + counter + ". Doing serialization.... " );
