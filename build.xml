@@ -60,8 +60,9 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
-    <target name="Main (1)">
+    <target name="MainBenchmark">
         <java classname="com.inno.Main" failonerror="true" fork="yes">
+            <arg line="shahab 200"/>
             <classpath refid="CassandraBenchmark.classpath"/>
         </java>
     </target>
