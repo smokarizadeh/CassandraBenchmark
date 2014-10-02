@@ -7,12 +7,14 @@ public class ProfileDAO extends CassandraData {
 	
 	String host;
 	String keyspace;
-	BoundStatement boundStatement;
+	BoundStatement boundInsertStatement;
+	BoundStatement boundReadStatement;
 	
 	public ProfileDAO (String host, String keyspace) {
 		this.host = host;
 		this.keyspace = keyspace;
 		prepareInsertStatement();
+		prepareReadStatement();
 	}
 	
 	public  String makeInsertStatement(int company, int bucket, String id, String content) {
@@ -22,20 +24,34 @@ public class ProfileDAO extends CassandraData {
 		return sqlStm;
 	}
 	
+	
+	
 	public void prepareInsertStatement() {
 		String host_tbl = keyspace + "." + "profiles_1";
 		PreparedStatement statement = getSession(host, keyspace).prepare(
 			      "INSERT INTO " + host_tbl +
 			      " (company, bucket, id, content) " +
 			      "VALUES (?, ?, ?, ?);");
-	    boundStatement = new  BoundStatement(statement);
+		boundInsertStatement = new  BoundStatement(statement);
 	}
+	
+	public void prepareReadStatement() {
+		String host_tbl = keyspace + "." + "profiles_1";
+		PreparedStatement statement = getSession(host, keyspace).prepare("select * from " + host_tbl +" where company= ? and  bucket= ? and id = ? " );
+			   
+		boundReadStatement = new  BoundStatement(statement);
+	}
+	
 	public void insertProfile(int cid, int bid, String pid, String content) {
 //		String sqlStm = makeInsertStatement (cid, bid, pid, content);
 //		getSession(host, keyspace).execute(sqlStm);
-		getSession(host, keyspace).execute(boundStatement.bind (cid, bid, pid, content ));
+		getSession(host, keyspace).execute(boundInsertStatement.bind (cid, bid, pid, content ));
 	}
 	
+	
+	public void readProfile(int cid, int bid, String pid) {
+		getSession(host, keyspace).execute(boundReadStatement.bind (cid, bid, pid ));
+	} 
 	public void close() {
 		close(host, keyspace);
 	}
