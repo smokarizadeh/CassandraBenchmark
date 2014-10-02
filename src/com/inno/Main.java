@@ -58,11 +58,11 @@ public class Main {
     	String collectionName = "SampleProfiles";
     	int num = 208;
     	
-//    	if (args.length == 2) {
-//    		collectionName = args[0];
-//    		num = Integer.parseInt(args[1]);
-//    		System.out.println ("MongoDB " + collectionName + " size: " + num);
-//    	}
+    	if (args.length == 2) {
+    		collectionName = args[0];
+    		num = Integer.parseInt(args[1]);
+    		System.out.println ("MongoDB " + collectionName + " size: " + num);
+    	}
     	
         MongoClient mongoClient;
 		try {
@@ -77,8 +77,8 @@ public class Main {
 //			client.connect("ec2-54-247-46-227.eu-west-1.compute.amazonaws.com", "mydb");
 //			System.out.println("Connected to Cassandra !");
 			
-		//	ProfileDAO daoProfile = new ProfileDAO("ec2-54-247-46-227.eu-west-1.compute.amazonaws.com", "mydb");
-			ProfileDAO daoProfile = new ProfileDAO("localhost", "mydb");
+			ProfileDAO daoProfile = new ProfileDAO("ec2-54-73-244-254.eu-west-1.compute.amazonaws.com", "mydb");
+		//	ProfileDAO daoProfile = new ProfileDAO("localhost", "mydb");
 			
 			DBCollection coll = db.getCollection(collectionName);
 			DBCursor cursor = coll.find();
