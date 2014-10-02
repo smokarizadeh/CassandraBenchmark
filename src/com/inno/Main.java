@@ -90,6 +90,7 @@ public class Main {
 			long tStartInsert, tEndInsert;
 			long tStartRead, tEndRead;
 			int r;
+			int c,b;
 			
 			Random rand = new Random(System.currentTimeMillis());
 			try {
@@ -101,9 +102,10 @@ public class Main {
 
 			      String id = data.get("id").toString();
 			     
-
 			      tStartInsert = System.currentTimeMillis();
-			      daoProfile.insertProfile(Company, Bucket, id, data.toString());
+			      c = rand.nextInt(40);
+			      
+			      daoProfile.insertProfile(c, Bucket, id, data.toString());
 			      tEndInsert = System.currentTimeMillis() - tStartInsert;
 			      listInsert.add(Integer.valueOf((int) tEndInsert));
 			      
@@ -112,7 +114,8 @@ public class Main {
 			      String read_id = keysList.get(r);
 			      
 			      tStartRead = System.currentTimeMillis();
-			      daoProfile.readProfile(Company, Bucket, read_id);
+			      c = rand.nextInt(40);
+			      daoProfile.readProfile(c, Bucket, read_id);
 			      tEndRead = System.currentTimeMillis() - tStartRead;
 			      listRead.add(Integer.valueOf((int) tEndRead));
 			      
