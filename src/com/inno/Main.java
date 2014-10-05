@@ -8,6 +8,13 @@ import com.mongodb.MongoClient;
 
 
 
+
+
+
+
+
+
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,6 +24,13 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 
 
@@ -53,8 +67,73 @@ public class Main {
 	
 	
 	
+	 public static void main(String[] args) {
+	    	String collectionName = "SampleProfiles";
+	    	int num = 208;
+	    	
+	    	if (args.length == 2) {
+	    		collectionName = args[0];
+	    		num = Integer.parseInt(args[1]);
+	    		System.out.println ("MongoDB " + collectionName + " size: " + num);
+	    	}
+	    	
+	        MongoClient mongoClient;
+	   try{     
+	      //  mongoClient = new MongoClient( "ec2-54-228-63-91.eu-west-1.compute.amazonaws.com" , 27017 );
+		   mongoClient = new MongoClient( "ec2-54-228-63-91.eu-west-1.compute.amazonaws.com" , 27017 );
+			DB db = mongoClient.getDB( "shahab" );
+			DBCollection coll = db.getCollection(collectionName);
+			DBCursor cursor = coll.find();
+			long t_start = 0;
+			int counter = 0;
+			try {
+				BlockingQueue<DBObject> queue = new ArrayBlockingQueue<DBObject> (10000);
+				ExecutorService executor = Executors.newFixedThreadPool(4);
+				
+			    List<Future<String>> list = new ArrayList<Future<String>>();
+			    for (int i = 0; i < 4; i++) {
+			      Callable<String> worker = new WriterThread(queue);
+			      Future<String> submit = executor.submit(worker);
+			      list.add(submit);
+			    }
+			    System.out.println("Thread have started .... ");
+			     t_start = System.currentTimeMillis();
+			    while(cursor.hasNext()) {
+				      DBObject data = cursor.next();
+				      queue.add(data);
+				      counter++;
+			    }
+			    
+			    System.out.println("----------------");
+			    // now retrieve the result
+			    int i = 0;
+			    for (Future<String> future : list) {
+			      try {
+			    	i++; 
+			        System.out.println(i + ": " + future.get());
+			      } catch (InterruptedException e) {
+			        e.printStackTrace();
+			      } catch (ExecutionException e) {
+			        e.printStackTrace();
+			      }
+			    }
+			    long t_end = System.currentTimeMillis();
+				   System.out.println("Reading is finished, it took  "+ (t_end - t_start)+ "  ms " + counter + ". Doing serialization.... " ); 
+			    executor.shutdown();
+			
+				} finally {
+				   cursor.close();
+				}
+				
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			}
+	        
+	    }
 	
-    public static void main(String[] args) {
+	
+	
+    public static void old_main(String[] args) {
     	String collectionName = "SampleProfiles";
     	int num = 208;
     	
@@ -101,20 +180,20 @@ public class Main {
 			      data.removeField("_id");
 
 			      String id = data.get("id").toString();
-			     
-			      tStartInsert = System.currentTimeMillis();
-			      c = rand.nextInt(40);
+			    
+			      c = rand.nextInt(200);
 			      
+			      tStartInsert = System.currentTimeMillis();
 			      daoProfile.insertProfile(c, Bucket, id, data.toString());
 			      tEndInsert = System.currentTimeMillis() - tStartInsert;
-			      listInsert.add(Integer.valueOf((int) tEndInsert));
 			      
+			      listInsert.add(Integer.valueOf((int) tEndInsert));
 			      keysList.add(id);
 			      r = rand.nextInt(keysList.size());
 			      String read_id = keysList.get(r);
 			      
+			      c = rand.nextInt(200);
 			      tStartRead = System.currentTimeMillis();
-			      c = rand.nextInt(40);
 			      daoProfile.readProfile(c, Bucket, read_id);
 			      tEndRead = System.currentTimeMillis() - tStartRead;
 			      listRead.add(Integer.valueOf((int) tEndRead));
