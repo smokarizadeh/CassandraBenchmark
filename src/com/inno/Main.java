@@ -15,6 +15,8 @@ import com.mongodb.MongoClient;
 
 
 
+
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,6 +33,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 
 
@@ -100,7 +103,7 @@ public class Main {
 			     t_start = System.currentTimeMillis();
 			    while(cursor.hasNext()) {
 				      DBObject data = cursor.next();
-				      queue.add(data);
+				      queue.offer(data, 10, TimeUnit.SECONDS);
 				      counter++;
 			    }
 			    
@@ -121,6 +124,9 @@ public class Main {
 				   System.out.println("Reading is finished, it took  "+ (t_end - t_start)+ "  ms " + counter + ". Doing serialization.... " ); 
 			    executor.shutdown();
 			
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				} finally {
 				   cursor.close();
 				}
