@@ -37,15 +37,18 @@ public class WriterThread implements Callable<String> {
 		
 		List<Integer> listInsert = new ArrayList<Integer>();
 		List<Integer> listRead = new ArrayList<Integer>();
+		List<Integer> listSize = new ArrayList<Integer> ();
 		
 		long size = 0;
 		while (true){
 			DBObject data = this.myqueue.poll(30, TimeUnit.SECONDS);
 			  
 			  if (data == null) {
+				   MyStat statSize = new MyStat(listSize);
 				   MyStat statInsert = new MyStat(listInsert);
 				   String s1 = "*** Insert Mean = " + statInsert.getMean() + ", sd= " + statInsert.getStdDev() + 
-						   " : " + listInsert.size() + " , size of content = " + size;
+						   " : " + listInsert.size() + " , Mean of profile size = " + statSize.getMean() + 
+						   " , SD of profiel size: " +statSize.getStdDev();
 				   
 				 //  System.out.println(s1);
 				   MyStat statRead = new MyStat(listRead);
@@ -76,7 +79,7 @@ public class WriterThread implements Callable<String> {
 		      tEndRead = System.currentTimeMillis() - tStartRead;
 		      listRead.add(Integer.valueOf((int) tEndRead));
 		      
-		      size += data.toString().length();
+		      listSize.add(data.toString().length());
 		      data = null; 
 		}
 	}
