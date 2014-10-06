@@ -90,7 +90,7 @@ public class Main {
 			long t_start = 0;
 			int counter = 0;
 			try {
-				BlockingQueue<DBObject> queue = new ArrayBlockingQueue<DBObject> (1000000);
+				BlockingQueue<DBObject> queue = new ArrayBlockingQueue<DBObject> (100000);
 				ExecutorService executor = Executors.newFixedThreadPool(4);
 				
 			    List<Future<String>> list = new ArrayList<Future<String>>();

@@ -38,14 +38,14 @@ public class WriterThread implements Callable<String> {
 		List<Integer> listInsert = new ArrayList<Integer>();
 		List<Integer> listRead = new ArrayList<Integer>();
 		
-		
+		long size = 0;
 		while (true){
 			DBObject data = this.myqueue.poll(30, TimeUnit.SECONDS);
 			  
 			  if (data == null) {
 				   MyStat statInsert = new MyStat(listInsert);
 				   String s1 = "*** Insert Mean = " + statInsert.getMean() + ", sd= " + statInsert.getStdDev() + 
-						   " : " + listInsert.size();
+						   " : " + listInsert.size() + " , size of content = " + size;
 				   
 				 //  System.out.println(s1);
 				   MyStat statRead = new MyStat(listRead);
@@ -75,6 +75,9 @@ public class WriterThread implements Callable<String> {
 		      daoProfile.readProfile(c, Bucket, read_id);
 		      tEndRead = System.currentTimeMillis() - tStartRead;
 		      listRead.add(Integer.valueOf((int) tEndRead));
+		      
+		      size += data.toString().length();
+		      data = null; 
 		}
 	}
 
