@@ -16,15 +16,13 @@ public class WriterThread implements Callable<String> {
 		this.myqueue = bq;
 	}
 	 
-
-
 	@Override
 	public String call() throws Exception {
 		long tStartInsert, tEndInsert;
 		long tStartRead, tEndRead;
 	
-		//ProfileDAO daoProfile = new ProfileDAO("ec2-54-73-244-254.eu-west-1.compute.amazonaws.com", "mydb");
-		ProfileDAO daoProfile = new ProfileDAO("localhost", "mydb");
+		ProfileDAO daoProfile = new ProfileDAO("ec2-54-74-113-83.eu-west-1.compute.amazonaws.com", "mydb");
+		//ProfileDAO daoProfile = new ProfileDAO("localhost", "mydb");
 	
 		
 		List<Integer> listInsert = new ArrayList<Integer>();
