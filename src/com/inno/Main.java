@@ -69,7 +69,11 @@ public class Main {
 	}
 	
 	
-	
+	/**
+	 * This method fetches profiles from MongoDb and inserts them into Cassandra, where company, bucket and profileid are used as row keys
+	 * and profile itself as value
+	 * @param args
+	 */
 	 public static void main(String[] args) {
 	    	String collectionName = "SampleProfiles";
 	    	int num = 208;
@@ -162,8 +166,8 @@ public class Main {
 //			client.connect("ec2-54-247-46-227.eu-west-1.compute.amazonaws.com", "mydb");
 //			System.out.println("Connected to Cassandra !");
 			
-			ProfileDAO daoProfile = new ProfileDAO("ec2-54-73-244-254.eu-west-1.compute.amazonaws.com", "mydb");
-		//	ProfileDAO daoProfile = new ProfileDAO("localhost", "mydb");
+		//	ProfileDAO daoProfile = new ProfileDAO("ec2-54-73-244-254.eu-west-1.compute.amazonaws.com", "mydb");
+			ProfileDAO daoProfile = new ProfileDAO("localhost", "mydb");
 			
 			DBCollection coll = db.getCollection(collectionName);
 			DBCursor cursor = coll.find();

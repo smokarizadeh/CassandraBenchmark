@@ -2,7 +2,6 @@ package com.inno;
 
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.PreparedStatement;
-import com.datastax.driver.core.ResultSet;
 
 public class ProfileDAO extends CassandraData {
 	
@@ -45,9 +44,8 @@ public class ProfileDAO extends CassandraData {
 	}
 	
 	public void insertProfile(int cid, int bid, String pid, String content) {
-//		String sqlStm = makeInsertStatement (cid, bid, pid, content);
-//		getSession(host, keyspace).execute(sqlStm);
-		ResultSet result = getSession(host, keyspace).execute(boundInsertStatement.bind (cid, bid, pid, content ));
+
+		 getSession(host, keyspace).execute(boundInsertStatement.bind (cid, bid, pid, content ));
 	}
 	
 	
