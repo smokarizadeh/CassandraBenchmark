@@ -63,7 +63,7 @@
     <target name="MainBenchmark">
         <java classname="com.inno.Main" failonerror="true" fork="yes">
             <jvmarg line="-Xmx4G"/>
-            <arg line="SampleProfiles1000000 1000000"/>
+            <arg line="Pierce_100000 3000"/>
             <classpath refid="CassandraBenchmark.classpath"/>
         </java>
     </target>
