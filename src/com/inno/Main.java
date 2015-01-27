@@ -27,8 +27,8 @@ import java.util.concurrent.TimeUnit;
 
 
 public class Main {
-	public static final int  Company = 106;
-	public static final int Bucket = 1006;
+	public static final String  Company = "106";
+	public static final String Bucket = "Pierce";
 	
 	public static void serializeToFile(String filename, List<String> list) {
 		try{

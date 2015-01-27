@@ -43,7 +43,14 @@ public class ProfileDAO extends CassandraData {
 		boundReadStatement = new  BoundStatement(statement);
 	}
 	
+	@Deprecated
 	public void insertProfile(int cid, int bid, String pid, String content) {
+
+		 getSession(host, keyspace).execute(boundInsertStatement.bind (cid, bid, pid, content ));
+	}
+	
+	
+	public void insertProfile(String cid, String bid, String pid, String content) {
 
 		 getSession(host, keyspace).execute(boundInsertStatement.bind (cid, bid, pid, content ));
 	}
