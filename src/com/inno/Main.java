@@ -24,11 +24,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-
-
 public class Main {
-	public static final String  Company = "106";
-	public static final String Bucket = "Pierce";
+	public static  String  Company ;//= "107";
+	public static  String Bucket ;// = "putfeetfirst";
 	
 	public static void serializeToFile(String filename, List<String> list) {
 		try{
@@ -67,9 +65,11 @@ public class Main {
 	    	String collectionName = "SampleProfiles";
 	    	int num = 208;
 	    	
-	    	if (args.length == 2) {
+	    	if (args.length == 4) {
 	    		collectionName = args[0];
 	    		num = Integer.parseInt(args[1]);
+	    		Company = args[2];
+	    		Bucket = args[3];
 	    	}
 	    	System.out.println ("MongoDB " + collectionName + " size: " + num);
 	    	
@@ -77,7 +77,7 @@ public class Main {
 	   try{     
 		   
 	      //  mongoClient = new MongoClient( "ec2-54-228-63-91.eu-west-1.compute.amazonaws.com" , 27017 );
-		   mongoClient = new MongoClient( "ec2-54-228-63-91.eu-west-1.compute.amazonaws.com" , 27017 );
+		   mongoClient = new MongoClient( "ec2-54-220-49-224.eu-west-1.compute.amazonaws.com" , 27017 );
 			DB db = mongoClient.getDB( "shahab" );
 			DBCollection coll = db.getCollection(collectionName);
 			DBCursor cursor = coll.find();
@@ -95,7 +95,7 @@ public class Main {
 			    }
 			    System.out.println("Thread have started .... ");
 			     t_start = System.currentTimeMillis();
-			    while(cursor.hasNext() ) {
+			    while(cursor.hasNext()  && counter < num) {
 				      DBObject data = cursor.next();
 				      queue.offer(data, 10, TimeUnit.SECONDS);
 				      counter++;
@@ -131,8 +131,5 @@ public class Main {
 			}
 	        
 	    }
-	
-	
-	
   
 }

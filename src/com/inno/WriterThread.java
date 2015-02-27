@@ -24,7 +24,7 @@ public class WriterThread implements Callable<String> {
 		//ProfileDAO daoProfile = new ProfileDAO("ec2-54-74-113-83.eu-west-1.compute.amazonaws.com", "mydb");
 		//ProfileDAO daoProfile = new ProfileDAO("localhost", "mydb");
 	
-		String DatawareHousingNew1= "ec2-54-220-128-75.eu-west-1.compute.amazonaws.com";
+		String DatawareHousingNew1=  "ec2-54-195-90-61.eu-west-1.compute.amazonaws.com"; //  "ec2-54-220-128-75.eu-west-1.compute.amazonaws.com";
 		ProfileDAO daoProfile = new ProfileDAO(DatawareHousingNew1, "mydb");
 		
 		List<Integer> listInsert = new ArrayList<Integer>();
